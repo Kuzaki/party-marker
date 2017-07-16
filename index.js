@@ -8,12 +8,15 @@ const red = 0,
     blue = 2,
     heal_color = yellow,
     dps_color = blue,
-    tank_color = red;
+    tank_color = red,
+    self_color = blue;
     
 let enabled = null,
+    self_mark = null,
     tomark = null,
     leaderID = null,
     playerID = null,
+    self = [],
     dead = [],
     heal = [],
     dps = [],
@@ -60,6 +63,24 @@ let enabled = null,
             enabled ? command.message('Auto Mark Enabled') : command.message('Auto Mark Disabled') 
             if(tomark.length != 0) mark(tomark);
     });
+    command.add('selfmark', (arg) => {
+        if(!self){
+            command.message('Not in Party')
+            return;
+        }
+        if(arg === 'on'){
+                self_mark = true;
+                enabled = true;
+                selfmark(self);
+                command.message('Self-Mark On');
+        }
+        if(arg === 'off'){
+                self_mark = false;
+                enabled = false;
+                selfmark([]);
+                command.message('Self-Mark Off');
+        }
+    });
     
     dispatch.hook('S_LOGIN', 2, (event) => {	
 		playerID = event.playerId;
@@ -68,6 +89,7 @@ let enabled = null,
     dispatch.hook('S_PARTY_MEMBER_LIST', 5, event => {
         leaderID = event.leaderPlayerId;
             for (let x in event.members){
+                if(playerID == event.members[x].playerId) self.push({color: self_color, target: event.members[x].cid});
                 if(event.members[x].class == 6 || event.members[x].class == 7) heal.push({color: heal_color, target: event.members[x].cid});
                 else if(event.members[x].class == 1 || event.members[x].class == 10) tank.push({color: tank_color, target: event.members[x].cid});
                 else dps.push({color: dps_color, target: event.members[x].cid});
@@ -89,9 +111,15 @@ let enabled = null,
         if(event.curHp > 0 && dead.includes(event.playerId)){
             let index = dead.indexOf(event.playerId);
             dead.splice(index, 1);
-            mark(tomark);
+            self_mark ? selfmark(self) : mark(tomark);
         }
 	});
+    
+    function selfmark(id){
+            dispatch.toClient('S_PARTY_MARKER', 1, {
+                markers: id
+            });
+    }
 
     function mark(marks){
             dispatch.toServer('C_PARTY_MARKER', 1, {
