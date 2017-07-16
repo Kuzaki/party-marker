@@ -5,26 +5,36 @@
 Marks party member. Markers are reapplied after being ressed (no matter who dies).
 
 ## Commands
-* /proxy mark arg
-* arg accepts | All
+* /proxy mark arg (Requires Lead, Everyone will see).
+- arg for mark accepts | All
               | Tank
                | DPS
                | Heal
                | Tank+Heal or heal+tank
-               | off
-               | self
+               | off 
 * mark all = marks everyone, so on so on...
-* mark self = marks self. ONLY VISIBLE TO YOU.
 * mark off = removes all marks
 
-- color 
-Heal = Blue;
+* /proxy selfmark arg (Does not requires Lead, Only You will see).
+* arg for selfmark accepts | on | off
+
+
+
+- COLORS
+
+Server:
+Heal = Blue
 DPS = Yellow
 Tank = Red
+
+Client:
+Self = blue
+
 
 You can edit the color in index.js.
 * heal_color
 * dps_color
 * tank_color
+* self_color
 - Only supports marker colors 
 
