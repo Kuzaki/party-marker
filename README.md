@@ -2,7 +2,7 @@
 
 ## REQUIRES pinkipi's command. Get it > https://github.com/pinkipi/command
 
-Marks party member. Markers are reapplied after being ressed (no matter who dies).
+Marks party member or self. Markers are reapplied after being ressed (no matter who dies).
 
 ## Commands
 * /proxy mark arg (Requires Lead, Everyone will see).
