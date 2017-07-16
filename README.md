@@ -10,7 +10,7 @@ Marks party member. Markers are reapplied after being ressed (no matter who dies
               | Tank
                | DPS
                | Heal
-               | Tank+Heal
+               | Tank+Heal or heal+tank
 * mark all marks everyone, so on so on...
 
 - color 
