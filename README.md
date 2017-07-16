@@ -11,7 +11,9 @@ Marks party member. Markers are reapplied after being ressed (no matter who dies
                | DPS
                | Heal
                | Tank+Heal or heal+tank
-* mark all marks everyone, so on so on...
+               | off
+* mark all = marks everyone, so on so on...
+* mark off = removes all marks
 
 - color 
 Heal = Yellow;
