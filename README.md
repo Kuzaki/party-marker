@@ -15,7 +15,7 @@ Marks party member. Markers are reapplied after being ressed (no matter who dies
 * mark all = marks everyone, so on so on...
 * mark off = removes all marks
 
-* /proxy selfmark arg (Does not requires Lead, Only You will see).
+* /proxy selfmark arg (Does not require lead, Only You will see).
 * arg for selfmark accepts | on | off
 
 
