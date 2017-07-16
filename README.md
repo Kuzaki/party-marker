@@ -12,12 +12,14 @@ Marks party member. Markers are reapplied after being ressed (no matter who dies
                | Heal
                | Tank+Heal or heal+tank
                | off
+               | self
 * mark all = marks everyone, so on so on...
+* mark self = marks self. ONLY VISIBLE TO YOU.
 * mark off = removes all marks
 
 - color 
-Heal = Yellow;
-DPS = Blue
+Heal = Blue;
+DPS = Yellow
 Tank = Red
 
 You can edit the color in index.js.
