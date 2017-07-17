@@ -88,13 +88,13 @@ let enabled = null,
 
     dispatch.hook('S_PARTY_MEMBER_LIST', 5, event => {
         leaderID = event.leaderPlayerId;
+        resetparty(); //everytime list update, reset the party first so you do not have duplicates or someone left party.
             for (let x in event.members){
                 if(playerID == event.members[x].playerId) self.push({color: self_color, target: event.members[x].cid});
                 if(event.members[x].class == 6 || event.members[x].class == 7) heal.push({color: heal_color, target: event.members[x].cid});
                 else if(event.members[x].class == 1 || event.members[x].class == 10) tank.push({color: tank_color, target: event.members[x].cid});
                 else dps.push({color: dps_color, target: event.members[x].cid});
             }
-            list = [];
             tank_heal = heal.concat(tank);
             all = tank_heal.concat(dps);
     });
@@ -114,6 +114,15 @@ let enabled = null,
             self_mark ? selfmark(self) : mark(tomark);
         }
 	});
+    
+    function resetparty(){
+        self = []
+        heal = [],
+        dps = [],
+        tank = [],
+        tank_heal = [],
+        all = [];
+    }
     
     function selfmark(id){
             dispatch.toClient('S_PARTY_MARKER', 1, {
