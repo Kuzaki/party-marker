@@ -26,59 +26,59 @@ let enabled = null,
     
     command.add('mark', (arg) => {
             if(playerID != leaderID){
-                command.message('Cannot Mark, Require Lead!')
+                command.message('(Party-Marker) Cannot Mark, Require Lead!')
                 return;
             }
             if(arg === 'all'){
                 enabled = true;
                 tomark = all;
-                command.message('Marked all');
+                command.message('(Party-Marker) Marked all');
             }
             else if(arg ===  'tank+heal' || arg ===  'heal+tank'){
                 enabled = true;
                 tomark = tank_heal;
-                command.message('Marked Tank and Heal');
+                command.message('(Party-Marker) Marked Tank and Heal');
             }
             else if(arg ===  'heal'){
                 enabled = true;
                 tomark = heal;
-                command.message('Marked Heal');
+                command.message('(Party-Marker) Marked Heal');
             }
             else if(arg ===  'tank'){
                 enabled = true;
                 tomark = tank;
-                command.message('Marked Tank');
+                command.message('(Party-Marker) Marked Tank');
             }
             else if(arg ===  'dps'){
                 enabled = true;
                 tomark = dps;
-                command.message('Marked DPS');
+                command.message('(Party-Marker) Marked DPS');
             }
             else if(arg ===  'off'){
                 tomark = [];
                 mark(tomark);
                 enabled = false;
-                command.message('Marks Removed')
+                command.message('(Party-Marker) Marks Removed')
             }
-            enabled ? command.message('Auto Mark Enabled') : command.message('Auto Mark Disabled') 
+            enabled ? command.message('(Party-Marker) Auto Mark Enabled') : command.message('(Party-Marker) Auto Mark Disabled') 
             if(tomark.length != 0) mark(tomark);
     });
     command.add('selfmark', (arg) => {
         if(!self){
-            command.message('Not in Party')
+            command.message('(Party-Marker) Not in Party')
             return;
         }
         if(arg === 'on'){
                 self_mark = true;
                 enabled = true;
                 selfmark(self);
-                command.message('Self-Mark On');
+                command.message('(Party-Marker) Self-Mark On');
         }
         if(arg === 'off'){
                 self_mark = false;
                 enabled = false;
                 selfmark([]);
-                command.message('Self-Mark Off');
+                command.message('(Party-Marker) Self-Mark Off');
         }
     });
     
