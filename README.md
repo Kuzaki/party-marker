@@ -18,6 +18,9 @@ Marks party member or self. Markers are reapplied after being ressed (no matter 
 * /proxy selfmark arg (Does not require lead, Only You will see).
 * arg for selfmark accepts | on | off
 
+* /proxy glowmark arg (client side) (Spawns HH drop glow mark at your location)
+* arg accepts | on | off
+
 
 
 - COLORS
