@@ -1,6 +1,6 @@
 const Command = require('command')
 
-module.exports = function marker(dispatch) {
+module.exports = function Partymarker(dispatch) {
     const command = Command(dispatch)
     
 const red = 0,
@@ -13,9 +13,11 @@ const red = 0,
     
 let enabled = null,
     self_mark = null,
+    glow_mark = null,
     tomark = null,
     leaderID = null,
     playerID = null,
+    location = {x: 0, y: 0 , z: 0},
     self = [],
     dead = [],
     heal = [],
@@ -64,7 +66,7 @@ let enabled = null,
             if(tomark.length != 0) mark(tomark);
     });
     command.add('selfmark', (arg) => {
-        if(!self){
+        if(self.length == 0){
             command.message('(Party-Marker) Not in Party')
             return;
         }
@@ -79,6 +81,13 @@ let enabled = null,
                 enabled = false;
                 selfmark([]);
                 command.message('(Party-Marker) Self-Mark Off');
+        }
+    });
+    command.add('glowmark', (arg) => {
+        if(arg === 'on') glow_mark = true;  
+        if(arg === 'off') {
+            glow_mark = false;
+            removeMarker();
         }
     });
     
@@ -114,6 +123,62 @@ let enabled = null,
             self_mark ? selfmark(self) : mark(tomark);
         }
 	});
+    
+    dispatch.hook('C_PLAYER_LOCATION', 1, (event) => {
+        if(!glow_mark) return;
+        location.x = event.x1;
+        location.y = event.y1;
+        location.z = event.z1;
+        updateItemMarker();
+    });
+    
+    dispatch.hook('C_START_SKILL', 3, {order: -10}, event => {
+        if(!glow_mark) return;
+        location.x = event.x;
+        location.y = event.y;
+        location.z = event.z;
+        updateItemMarker();
+	});
+	dispatch.hook('S_ACTION_STAGE', 1,{order: -10}, event => {
+        if(!glow_mark) return;
+        if(event.source.high != playerID) return;
+        location.x = event.x;
+        location.y = event.y;
+        location.z = event.z;
+        updateItemMarker();
+	});
+	dispatch.hook('S_ACTION_END', 1, {order: -10},event => {
+        if(!glow_mark) return;
+        if(event.source.high != playerID) return;
+        location.x = event.x;
+        location.y = event.y;
+        location.z = event.z;
+        updateItemMarker();
+	});
+    
+    function updateItemMarker(){
+        removeMarker();
+        spawnMarker();
+    }
+
+    function spawnMarker() {	
+		dispatch.toClient('S_SPAWN_DROPITEM', 1, {
+			id: playerID,
+			x: location.x,
+			y: location.y,
+			z: location.z-250,
+			item: 98260,
+			amount: 1,
+			expiry: 999999,
+			owners: [{id: playerID}]
+		});	
+	}
+    
+    function removeMarker() {
+			dispatch.toClient('S_DESPAWN_DROPITEM', 1, {
+				id: playerID
+			});	
+    }
     
     function resetparty(){
         self = []
